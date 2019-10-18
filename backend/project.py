@@ -10,7 +10,7 @@ from PIL import Image
 from seeing import nethook, setting, show, renormalize, zdataset, pbar, segviz
 from seeing import encoder_net
 from seeing import imgviz, segmenter
-from torchvision import models
+from torchvision import models, transforms
 from torch.nn.functional import mse_loss, l1_loss
 
 # from gand import imagedata, subsequence
@@ -80,7 +80,9 @@ class SeeInverter(InverterProject):
                 m.cuda()
 
     def invert_generate(self, image_str):
-        pil_img = base64_to_pil(image_str)
+        pil_img = base64_to_pil(image_str) #type: PIL.Image
+        pil_img = transforms.functional.center_crop(
+            transforms.functional.resize(pil_img, 256), 256)
         # scale !!
 
         pt_img = renormalize.from_image(pil_img)
