@@ -16,3 +16,5 @@ __pycache__
 .*swp
 .idea
 data
+.cache-loader
+client/src/node_modules

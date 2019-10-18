@@ -1,0 +1,50 @@
+@import "../fonts/ssp.css";
+//@import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+  //background-color: #000000;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 500;
+  font-size: 12pt;
+}
+
+a {
+  color: #8dbfff;
+  text-decoration: none;
+}
+
+.nav-link{
+  text-decoration: underline;
+  //border-bottom: 1px solid currentColor;
+
+}
+
+.hidden{
+  //display: none;
+  opacity: 0;
+}
+
+.smooth{
+  transition-duration: 500ms;
+}
+
+.statRow{
+  padding-right: 1em;
+
+  .textBox{
+    padding-left: .5em;
+  }
+
+}
+
+//button {
+//  padding: 5px;
+//  border-radius: 3px;
+//  box-shadow: none;
+//  -webkit-appearance: none;
+//  -moz-appearance: none;
+//  appearance: none;
+//  border: 0;
+//}
+
+
