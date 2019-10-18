@@ -4,7 +4,7 @@ import argparse, connexion, os, yaml, json, socket
 import torch
 
 from flask import send_from_directory, redirect
-# from flask_cors import CORS
+from flask_cors import CORS
 
 from backend.project import SeeInverter, InverterProject, pil_to_base64
 # from gand import imagedata
@@ -20,7 +20,7 @@ projects = {}
 app = connexion.App(__name__, debug=False)
 
 
-def get_all_projects():
+def get_all_projects(): 
     res = []
     for key, project in projects.items():  # type: str,InverterProject
         # print key
@@ -151,7 +151,7 @@ def load_projects(directory, cachedir):
 app.add_api('server.yaml')
 
 # add CORS support
-# CORS(app.app, headers='Content-Type')
+CORS(app.app, headers='Content-Type')
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--nodebug", default=False)
