@@ -25,27 +25,47 @@ const demo = {}
 
 
 window.onload = () => {
+    const demo_data = {
+        "80_target": false,
+        "10_target": false,
+        "96_target": false,
+        "111_target": false,
+        "457_target": true,
+        "264_target": true,
+        "569_target": true,
+        "82_target": true,
+        "church_54_target": true,
+        "church_903_target": true,
+        "883_target": true,
+        "390_target": true,
+        "921_target": true,
+        "906_target": true
+    }
 
-    d3.select('#examples').selectAll('.xmpl').data(_.range(4))
+
+
+
+    d3.select('#examples').selectAll('.xmpl').data(Object.keys(demo_data).map(k => ({name:k, is_real:demo_data[k]})))
         .join('img')
         .attr('class', 'xmpl')
-        .attr('src', d => `demo/demo${d}.png`)
+        .attr('src', d => `demo/${d.name}.png.100.png`)
+        .classed('real_img', d => d.is_real)
         // .text(d => `example ${d}`)
         // .attr('href', '')
         .on('click', d => {
-            d3.json(`demo/demo${d}.json`)
+            d3.json(`demo/${d.name}.json`)
                 .then(dd => update_view(dd))
         })
 
 
     d3.select('#back').on('click', () => {
-            window.open('http://ganseeing.csail.mit.edu')
+        window.open('http://ganseeing.csail.mit.edu')
     })
 
 
     // START with demo 0
-    d3.json(`demo/demo0.json`)
-                .then(dd => update_view(dd))
+    d3.json(`demo/80_target.json`)
+        .then(dd => update_view(dd))
     /*
     *
     * variables and static selections

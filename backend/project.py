@@ -90,7 +90,7 @@ class SeeInverter(InverterProject):
         if self.use_cuda:
             target_x = target_x.cuda()
         # Some constants
-        num_steps = 50
+        num_steps = 1500
         # show_every=500,
         lr = 0.01
         milestones = [250, 500]

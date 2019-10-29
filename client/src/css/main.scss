@@ -42,7 +42,20 @@ a {
   width:70px;
   height:70px;
   border-radius:15px;
-  padding: 10px;
+  margin: 5px;
+  border-color: ivory;
+  border-width: 2px;
+  border-style: solid;
+  cursor: pointer;
+
+  &.real_img{
+    border-color: black;
+  }
+
+  &:hover{
+    border-style: dotted;
+  }
+
 }
 
 //button {
