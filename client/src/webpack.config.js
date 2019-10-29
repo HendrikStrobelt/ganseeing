@@ -1,6 +1,7 @@
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -97,7 +98,11 @@ module.exports = {
         }),
         new ForkTsCheckerWebpackPlugin({
             checkSyntacticErrors: true
-        })
+        }),
+        new CopyWebpackPlugin([
+            // {from: 'img', to: 'img'},
+            {from: "demo", to:"demo"}
+        ]),
     ],
     optimization: {
         splitChunks: {

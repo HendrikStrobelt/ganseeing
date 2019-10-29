@@ -1,10 +1,11 @@
 @import "../fonts/ssp.css";
+@import "custom_input.scss";
 //@import "../node_modules/bootstrap/scss/bootstrap";
 
 body {
   //background-color: #000000;
   font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 500;
+  font-weight: 300;
   font-size: 12pt;
 }
 
@@ -35,6 +36,13 @@ a {
     padding-left: .5em;
   }
 
+}
+
+.xmpl{
+  width:70px;
+  height:70px;
+  border-radius:15px;
+  padding: 10px;
 }
 
 //button {

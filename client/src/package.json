@@ -21,6 +21,7 @@
     "@types/d3-selection-multi": "^1.0.1",
     "@types/lodash": "^4.14.92",
     "@types/node": "^10.12.18",
+    "copy-webpack-plugin": "^5.0.4",
     "d3": "^5.9.2",
     "d3-selection": "^1.4.0",
     "d3-selection-multi": "^1.0.1",

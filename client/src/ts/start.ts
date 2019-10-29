@@ -8,13 +8,14 @@ import "!file-loader?name=index.html!../index.html";
 // import "!file-loader?name=brush.svg!../fonts/icons/brush.svg";
 // import "!file-loader?name=logo_inv.svg!../fonts/icons/logo_inv.svg";
 // import "bootstrap/js/dist/index"
-import {SimpleEventHandler} from "./etc/SimpleEventHandler";
+import { SimpleEventHandler } from "./etc/SimpleEventHandler";
 import {
     SeeingAPI
 } from "./api/SeeingAPI";
 import URLHandler from "./etc/URLHandler";
 
-import {Icons} from "./icons/icons";
+import { Icons } from "./icons/icons";
+import * as _ from 'lodash';
 
 
 const current = {};
@@ -25,7 +26,26 @@ const demo = {}
 
 window.onload = () => {
 
+    d3.select('#examples').selectAll('.xmpl').data(_.range(4))
+        .join('img')
+        .attr('class', 'xmpl')
+        .attr('src', d => `demo/demo${d}.png`)
+        // .text(d => `example ${d}`)
+        // .attr('href', '')
+        .on('click', d => {
+            d3.json(`demo/demo${d}.json`)
+                .then(dd => update_view(dd))
+        })
 
+
+    d3.select('#back').on('click', () => {
+            window.open('http://ganseeing.csail.mit.edu')
+    })
+
+
+    // START with demo 0
+    d3.json(`demo/demo0.json`)
+                .then(dd => update_view(dd))
     /*
     *
     * variables and static selections
@@ -63,6 +83,90 @@ window.onload = () => {
      */
 
 
+    const update_view = res => {
+        // current.samples.unshift(res);
+        // updateSampleList();
+        // saveSamples();
+        //
+        console.log('RES:')
+        console.log(res);
+
+        d3.selectAll('.results').classed('hidden', false);
+
+        Object.keys(res.res).map(key => {
+            if (!key.startsWith('label')) {
+                d3.select('#' + key)
+                    .attr('src', res.res[key])
+
+            }
+        })
+
+        const statRows = d3.select('#stats')
+            .selectAll('.statRow').data(res.res.legend_colors)
+            .join(enter => {
+                const row = enter.append('div')
+                row.append('div')
+                    .attr('class', 'colorBox')
+                    .style('display', 'inline-block')
+                    .style('width', '10px')
+                    .style('height', '10px')
+
+                row.append('span').attr('class', 'textBox')
+                return row
+            })
+            .attr('class', 'statRow')
+
+        // @ts-ignore
+        statRows.select('.colorBox').style('background-color', d => d3.rgb(...d[0]))
+
+        statRows.select('.textBox').text(d => `${d[1]} (${d[2]})`);
+
+
+
+
+        d3.selectAll('.hide_while_up').style('display', null);
+        d3.select('#uploading_img').style('display', 'none');
+
+    }
+
+
+    const upload_image = img => {
+        d3.selectAll('.results').classed('hidden', true);
+
+        // @ts-ignore
+        api.uploadImage(project, img)
+            .then(update_view);
+    }
+
+
+    const shrink_and_upload = src_img => {
+        const img = new Image();
+        img.src = src_img;
+
+
+
+        img.onload = () => {
+            const max_dim = img.width > img.height ? img.width : img.height;
+            const factor = 512.0 / max_dim;
+            const width = Math.floor(img.width * factor);
+            const height = Math.floor(img.height * factor);
+
+            console.log(width, height)
+
+            const elem = document.createElement('canvas');
+            elem.width = width;
+            elem.height = height;
+            const ctx = elem.getContext('2d');
+            // img.width and img.height will contain the original dimensions
+            ctx.drawImage(img, 0, 0, width, height);
+            const blobb = ctx.canvas.toDataURL('image/png');
+            upload_image(blobb);
+
+
+        }
+    }
+
+
     d3.select('#upload_img').on('change', function () {
         const me = <HTMLInputElement>this;
         console.log(this, "--- this");
@@ -71,62 +175,21 @@ window.onload = () => {
 
         if (me.files && me.files[0]) {
 
-            d3.select('#upload_img').style('display', 'none');
+            d3.selectAll('.hide_while_up').style('display', 'none');
             d3.select('#uploading_img').style('display', null);
 
             const reader = new FileReader();
 
             reader.onload = e => {
-                console.log(e, "--- e");
-                // @ts-ignore
-                console.log(e.target.result, "--- e.target.result");
-
-                // @ts-ignore
-                api.uploadImage(project, e.target.result)
-                    .then(res => {
-                        // current.samples.unshift(res);
-                        // updateSampleList();
-                        // saveSamples();
-                        //
-                        console.log(res, "--- res");
-
-                        d3.selectAll('.results').classed('hidden', false);
-
-                        Object.keys(res.res).map(key =>{
-                            if (!key.startsWith('label')){
-                                d3.select('#'+key)
-                                    .attr('src', res.res[key])
-
-                            }
-                        })
-
-                        const statRows = d3.select('#stats')
-                            .selectAll('.statRow').data(res.res.legend_colors)
-                            .join(enter =>{
-                                const row = enter.append('div')
-                                row.append('div')
-                                    .attr('class','colorBox')
-                                    .style('display','inline-block')
-                                    .style('width','10px')
-                                    .style('height','10px')
-
-                                row.append('span').attr('class','textBox')
-                                return row
-                            })
-                            .attr('class','statRow')
-
-                        // @ts-ignore
-                        statRows.select('.colorBox').style('background-color', d => d3.rgb(...d[0]))
-
-                        statRows.select('.textBox').text(d => `${d[1]} (${d[2]})`);
+                // console.log(e, "--- e");
+                // // @ts-ignore
+                // console.log(e.target.result, "--- e.target.result");
 
 
+                console.log(e.target.result)
+                shrink_and_upload(e.target.result);
 
 
-                        d3.select('#upload_img').style('display', null);
-                        d3.select('#uploading_img').style('display', 'none');
-
-                    });
 
 
             }
