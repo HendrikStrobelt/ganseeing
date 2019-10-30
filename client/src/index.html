@@ -4,6 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content="http://gannotsee.net/" />
+    <meta property="og:title" content="Seeing what a GAN cannot see. Demo by MIT-IBM AI Lab and MIT CSAIL" />
+    <meta property="og:description"
+        content="This is a demo for the 2019 ICCV paper: 'Seeing what a GAN cannot generate' and it allows you to see how well a Generative Adversarial Network (GAN) trained on church images can reconstruct an input image. The demo highlights what the GAN misses in that individual image -- what it 'GAN not see...'" />
+    <meta property="og:image" content="http://gannotsee.net/demo/gannotsee_card.png" />
+
+
     <title>GAN not see</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -21,6 +30,18 @@
 
     <link rel="stylesheet" type="text/css" href="main.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129271073-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-129271073-4');
+    </script>
+
+
+
+
 
 </head>
 
@@ -72,7 +93,8 @@
                     input image. The demo
                     highlights what the GAN misses in that individual image -- what it "GAN not see..."
                 </p>
-                <p> This is a joint project of <a href="">MIT CSAIL</a> and the <a href="">MIT-IBM Watson AI Lab</a> by
+                <p> This is a joint project of <a href="https://www.csail.mit.edu/">MIT CSAIL</a> and the <a
+                        href="https://mitibmwatsonailab.mit.edu/">MIT-IBM Watson AI Lab</a> by
                     Bau, Zhu, Wulff, Peebles, Strobelt, Zhou, and Torralba.
                 </p>
 
@@ -84,7 +106,8 @@
         <div class="row">
             <div class="col">
                 <!-- <div class="col"> -->
-                <span style="vertical-align: middle;">Choose one of the examples. Images with white border are produced by a GAN. Black border indicates real-world images from the training set:</span><br>
+                <span style="vertical-align: middle;">Choose one of the examples. Images with white border are produced
+                    by a GAN. Black border indicates real-world images from the training set:</span><br>
                 <span id='examples' style="padding-top: 3px;"></span>
                 <!-- </div> -->
             </div>
@@ -96,7 +119,7 @@
                 <!-- Upload your image: <input id='upload_img' type='file' accept="image/*" />
             <span id="uploading_img" style="display: none;font-weight: bold;"> .... UPLOADING .... </span> -->
 
-                or upload your own church image:&nbsp;&nbsp;
+                or upload your own church image (runs 100 iterations):&nbsp;&nbsp;
                 <input type="file" name="file-1[]" id="upload_img" class="inputfile inputfile-1 hide_while_up"
                     accept="image/*" />
                 <label for="upload_img" class='hide_while_up' style="vertical-align: middle;"><svg
@@ -122,7 +145,7 @@
         </div>
 
         <!-- <hr> -->
-        <div class="row hidden smooth results">
+        <div class="row hidden smooth results" style="margin-top: 10px;">
             <div class="col-12">
                 <h3 class="text-center">Results</h3>
             </div>
@@ -157,7 +180,7 @@
         </div>
         <div class="row hidden smooth results">
             <div class="col-12">
-                <div class="row"> Statistics:</div>
+                <div class="row"> Labels:</div>
 
                 <div class="row" id="stats"></div>
 

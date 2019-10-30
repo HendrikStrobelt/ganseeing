@@ -13,6 +13,8 @@ import {
     SeeingAPI
 } from "./api/SeeingAPI";
 import URLHandler from "./etc/URLHandler";
+import loadImage from "blueimp-load-image"
+
 
 import { Icons } from "./icons/icons";
 import * as _ from 'lodash';
@@ -45,7 +47,7 @@ window.onload = () => {
 
 
 
-    d3.select('#examples').selectAll('.xmpl').data(Object.keys(demo_data).map(k => ({name:k, is_real:demo_data[k]})))
+    d3.select('#examples').selectAll('.xmpl').data(Object.keys(demo_data).map(k => ({ name: k, is_real: demo_data[k] })))
         .join('img')
         .attr('class', 'xmpl')
         .attr('src', d => `demo/${d.name}.png.100.png`)
@@ -139,7 +141,7 @@ window.onload = () => {
         // @ts-ignore
         statRows.select('.colorBox').style('background-color', d => d3.rgb(...d[0]))
 
-        statRows.select('.textBox').text(d => `${d[1]} (${d[2]})`);
+        statRows.select('.textBox').text(d => `${d[1]} `);
 
 
 
@@ -160,37 +162,50 @@ window.onload = () => {
 
 
     const shrink_and_upload = src_img => {
-        const img = new Image();
-        img.src = src_img;
+        d3.selectAll('.results').classed('hidden', true);
 
-
-
-        img.onload = () => {
-            const max_dim = img.width > img.height ? img.width : img.height;
-            const factor = 512.0 / max_dim;
-            const width = Math.floor(img.width * factor);
-            const height = Math.floor(img.height * factor);
-
-            console.log(width, height)
-
-            const elem = document.createElement('canvas');
-            elem.width = width;
-            elem.height = height;
-            const ctx = elem.getContext('2d');
-            // img.width and img.height will contain the original dimensions
-            ctx.drawImage(img, 0, 0, width, height);
-            const blobb = ctx.canvas.toDataURL('image/png');
+        loadImage(src_img, (ctx_el: HTMLCanvasElement) => {
+            console.log(ctx_el.height, ctx_el.width);
+            const blobb = ctx_el.toDataURL('image/png');
             upload_image(blobb);
+        }, {
+            maxWidth: 512,
+            maxHeight: 512,
+            orientation: true,
+            canvas: true
+        })
+
+        // const img = new Image();
+        // img.src = src_img;
 
 
-        }
+
+        // img.onload = () => {
+        //     const max_dim = img.width > img.height ? img.width : img.height;
+        //     const factor = 512.0 / max_dim;
+        //     const width = Math.floor(img.width * factor);
+        //     const height = Math.floor(img.height * factor);
+
+        //     console.log(width, height)
+
+        // const elem = document.createElement('canvas');
+        //     elem.width = width;
+        //     elem.height = height;
+        // const ctx = elem.getContext('2d');
+        //     // img.width and img.height will contain the original dimensions
+        //     ctx.drawImage(img, 0, 0, width, height);
+        // const blobb = ctx.canvas.toDataURL('image/png');
+        //     upload_image(blobb);
+
+
+        // }
     }
 
 
     d3.select('#upload_img').on('change', function () {
         const me = <HTMLInputElement>this;
-        console.log(this, "--- this");
-        console.log(me.files, "--- me.files");
+        // console.log(this, "--- this");
+        // console.log(me.files, "--- me.files");
 
 
         if (me.files && me.files[0]) {
@@ -206,7 +221,7 @@ window.onload = () => {
                 // console.log(e.target.result, "--- e.target.result");
 
 
-                console.log(e.target.result)
+                // console.log(e.target.result)
                 shrink_and_upload(e.target.result);
 
 

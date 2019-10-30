@@ -16,11 +16,13 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/blueimp-load-image": "^2.23.4",
     "@types/d3": "^5.7.2",
     "@types/d3-selection": "^1.4.1",
     "@types/d3-selection-multi": "^1.0.1",
     "@types/lodash": "^4.14.92",
     "@types/node": "^10.12.18",
+    "blueimp-load-image": "^2.24.0",
     "copy-webpack-plugin": "^5.0.4",
     "d3": "^5.9.2",
     "d3-selection": "^1.4.0",

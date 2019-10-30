@@ -1,6 +1,7 @@
 /dist
 /build
 /netdissect.egg-info
+/client/dist
 *.pyc
 /datasets
 /models
